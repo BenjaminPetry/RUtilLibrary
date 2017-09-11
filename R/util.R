@@ -57,11 +57,11 @@ effect.size.string <- function(effect.size)
 
 #' Stores a ggplot
 #'
-#' Creates a DinA4 document (on default) and places the plot on the whole document
+#' Creates a DinA4 document (on default) and places the plot on the whole document.
 #'
-#' @param p the ggplot-plot
-#' @param filename filename of the file WITH extension, which describes the format. Currently supported is "pdf", "png", "jpeg", "bmp"
-#' @param ppi the resultion of the picture (not used important for pdf)
+#' @param p the ggplot-plot or a list of ggplots. Filename will be adjusted with increasing numbers, except for pdf files. These will contain one page per plot.
+#' @param filename filename of the file WITH extension, which describes the format. Currently supported are "eps", "ps", "tex", "pdf", "jpeg", "tiff", "png", "bmp", "svg"
+#' @param dpi the resultion of the picture (important for raster graphics)
 #' @param paper default paper - only important for pdf (see pdf(paper=?))
 #' @param width width of the ploting area in inch (width * ppi defines the size of the picture formats)
 #' @param height height of the ploting area in inch (as for width)
@@ -75,13 +75,13 @@ effect.size.string <- function(effect.size)
 #' @export
 # For saving a ggplot into a pdf-file and also provide output on the default graphic device.
 # Default size: A4
-save.plot <- function(p, filename, ppi = 300, paper="a4r", width=11.69, height = 8.27, print.default.graphicdevice = TRUE)
+save.plot <- function(p, filename, dpi = 300, paper="a4r", width=11.69, height = 8.27, print.default.graphicdevice = TRUE)
 {
   # extract file extension
   filename.split <- strsplit(filename,"\\.")[[1]]
   format <- filename.split[-1]
   filename <- paste(filename.split[-length(filename.split)],collapse=".")
-  if (!(format %in% c("", "pdf", "png", "jpeg", "bmp")))
+  if (!(format %in% c("eps", "ps", "tex", "pdf", "jpeg", "tiff", "png", "bmp", "svg")))
   {
     stop("Not supported format ",format)
   }
@@ -110,7 +110,7 @@ save.plot <- function(p, filename, ppi = 300, paper="a4r", width=11.69, height =
       fname <- paste(filename,"-",index,".",format,sep="")
       print(fname)
     }
-    save.plot.single(pl, fname, format, ppi, paper, width, height)
+    save.plot.single(pl, fname, format, dpi, paper, width, height)
   }
   result <- lapply(1:length(plot.list), FUN = fun)
 
@@ -123,7 +123,7 @@ save.plot <- function(p, filename, ppi = 300, paper="a4r", width=11.69, height =
   {
     fun.console <- function(p)
     {
-      save.plot.single(p, "", "", ppi, paper, width, height)
+      save.plot.single(p, "", "", dpi, paper, width, height)
     }
     result <- lapply(plot.list, FUN = fun.console)
   }
@@ -131,33 +131,21 @@ save.plot <- function(p, filename, ppi = 300, paper="a4r", width=11.69, height =
 
 #' @keywords internal
 #' @import graphics
-save.plot.single <- function(p, filename="", format="", ppi = 300, paper="a4r", width=11.69, height = 8.27)
+save.plot.single <- function(p, filename="", format="", dpi = 300, paper="a4r", width=11.69, height = 8.27)
 {
-  if (filename!="")
+  if (filename == "")
   {
-    pixel.x = ppi * width
-    pixel.y = ppi * height
-    if (format == "pdf")
-    {
-      grDevices::pdf(filename, paper=paper, width=width, height = height)
-    }
-    else if (format == "png")
-    {
-      grDevices::png(filename, width = pixel.x, height = pixel.y)
-    }
-    else if (format == "jpeg")
-    {
-      grDevices::jpeg(filename, width = pixel.x, height = pixel.y)
-    }
-    else if (format == "bmp")
-    {
-      grDevices::bmp(filename, width = pixel.x, height = pixel.y)
-    }
+    graphics::plot(p)
   }
-  graphics::plot(p)
-  if (filename != "")
+  else if (format == "pdf")
   {
+    grDevices::pdf(filename, paper=paper, width=width, height = height)
+    graphics::plot(p)
     grDevices::dev.off()
+  }
+  else
+  {
+    ggplot2::ggsave(filename = filename, p, width = width, height = height, dpi = dpi, units = "in", device=format)
   }
 }
 

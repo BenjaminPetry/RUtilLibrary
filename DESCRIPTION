@@ -1,7 +1,7 @@
 Package: BPUtil
 Type: Package
 Title: Utility functions
-Version: 0.1.7
+Version: 0.1.8
 Date: 2017-09-10
 Author: Benjamin Petry
 Maintainer: Benjamin Petry <benjamin@ahlab.org>

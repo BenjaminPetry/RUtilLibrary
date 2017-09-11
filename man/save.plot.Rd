@@ -4,15 +4,15 @@
 \alias{save.plot}
 \title{Stores a ggplot}
 \usage{
-save.plot(p, filename, ppi = 300, paper = "a4r", width = 11.69,
+save.plot(p, filename, dpi = 300, paper = "a4r", width = 11.69,
   height = 8.27, print.default.graphicdevice = TRUE)
 }
 \arguments{
-\item{p}{the ggplot-plot}
+\item{p}{the ggplot-plot or a list of ggplots. Filename will be adjusted with increasing numbers, except for pdf files. These will contain one page per plot.}
 
-\item{filename}{filename of the file WITH extension, which describes the format. Currently supported is "pdf", "png", "jpeg", "bmp"}
+\item{filename}{filename of the file WITH extension, which describes the format. Currently supported are "eps", "ps", "tex", "pdf", "jpeg", "tiff", "png", "bmp", "svg"}
 
-\item{ppi}{the resultion of the picture (not used important for pdf)}
+\item{dpi}{the resultion of the picture (important for raster graphics)}
 
 \item{paper}{default paper - only important for pdf (see pdf(paper=?))}
 
@@ -26,7 +26,7 @@ save.plot(p, filename, ppi = 300, paper = "a4r", width = 11.69,
 void
 }
 \description{
-Creates a DinA4 document (on default) and places the plot on the whole document
+Creates a DinA4 document (on default) and places the plot on the whole document.
 }
 \examples{
 save.plot(statistics.plot.frequency(mtcars, c("cyl","carb")),"test.pdf")

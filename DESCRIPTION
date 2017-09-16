@@ -1,10 +1,10 @@
 Package: BPUtil
 Type: Package
 Title: Utility functions
-Version: 0.1.8
-Date: 2017-09-10
+Version: 0.1.8-1
+Date: 2017-09-16
 Author: Benjamin Petry
-Maintainer: Benjamin Petry <benjamin@ahlab.org>
+Maintainer: Benjamin Petry <bpetry@acm.org>
 Description: This package includes functions to easily access data from a database and to retrieve descriptive statistics and graphs.
 License: MIT + file LICENSE
 Encoding: UTF-8

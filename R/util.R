@@ -9,7 +9,15 @@
 #' @export
 p.value.string <- function(p.value)
 {
-  if (p.value < 0.001)
+  if (is.nan(p.value))
+  {
+    return("NaN")
+  }
+  else if (is.na(p.value))
+  {
+    return("NA")
+  }
+  else if (p.value < 0.001)
   {
     return("***")
   }
@@ -39,6 +47,14 @@ p.value.string <- function(p.value)
 #' @export
 effect.size.string <- function(effect.size)
 {
+  if (is.nan(effect.size))
+  {
+    return("NaN")
+  }
+  else if (is.na(effect.size))
+  {
+    return("NA")
+  }
   r <- abs(effect.size)
   if (r < 0.1)
   {

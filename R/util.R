@@ -22,7 +22,7 @@ save.plot <- function(p, filename, dpi = 300, paper="a4r", width=11.69, height =
 {
   # extract file extension
   filename.split <- strsplit(filename,"\\.")[[1]]
-  format <- filename.split[-1]
+  format <- filename.split[length(filename.split)]
   filename <- paste(filename.split[-length(filename.split)],collapse=".")
   if (!(format %in% c("eps", "ps", "tex", "pdf", "jpeg", "tiff", "png", "bmp", "svg")))
   {

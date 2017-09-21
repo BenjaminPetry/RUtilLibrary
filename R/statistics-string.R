@@ -145,7 +145,8 @@ wilcox.z <- function(wilcox.result)
 #' @param z.value the wilcoxon test's z-value
 #' @return r-value of the test result
 #' @examples
-#' wilcox.effect.size(wilcox.test(wt ~ am, data=head(mtcars)),nrow(head(mtcars)))
+#' wilcox.effect.size(nrow(head(mtcars)), z.value = -1.644854)
+#' wilcox.effect.size(nrow(head(mtcars)), wilcox.result = wilcox.test(wt ~ am, data=head(mtcars)))
 #' @export
 wilcox.effect.size <- function(sample.size, wilcox.result = NULL, z.value = NULL)
 {

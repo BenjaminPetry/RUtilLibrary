@@ -4,12 +4,14 @@
 \alias{statistics.descriptive.frequency}
 \title{Calculates the descriptive statistic of frequency data}
 \usage{
-statistics.descriptive.frequency(data, columns.independent)
+statistics.descriptive.frequency(data, columns.independent, drop = FALSE)
 }
 \arguments{
 \item{data}{the data as a data.frame}
 
 \item{columns.independent}{a vector of columns that contain the independent variables}
+
+\item{drop}{should combinations of variables that do not appear in the columns.independent be preserved or dropped (default = FALSE)}
 }
 \description{
 Returns a data.frame with the following values

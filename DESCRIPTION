@@ -1,7 +1,7 @@
 Package: BPUtil
 Type: Package
 Title: Utility functions
-Version: 0.1.9-5
+Version: 0.1.9-7
 Date: 2017-09-21
 Author: Benjamin Petry
 Maintainer: Benjamin Petry <bpetry@acm.org>

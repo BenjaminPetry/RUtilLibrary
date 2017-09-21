@@ -4,14 +4,16 @@
 \alias{statistics.plot.frequency}
 \title{Creates descriptive plot of frequency data}
 \usage{
-statistics.plot.frequency(data, columns.independent, xlab = NULL,
-  ylab = NULL, legend.lab = NULL, xlim = NULL, ylim = NULL,
-  title = NULL, position = position_dodge())
+statistics.plot.frequency(data, columns.independent, drop = FALSE,
+  xlab = NULL, ylab = NULL, legend.lab = NULL, xlim = NULL,
+  ylim = NULL, title = NULL, position = position_dodge())
 }
 \arguments{
 \item{data}{the data as a data.frame}
 
 \item{columns.independent}{a vector of columns that contain the independent variables}
+
+\item{drop}{should combinations of variables that do not appear in the columns.independent be preserved or dropped (default = FALSE)}
 
 \item{xlab}{label for x-axis (columns.independent[1] if provided)}
 

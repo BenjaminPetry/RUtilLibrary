@@ -140,17 +140,25 @@ wilcox.z <- function(wilcox.result)
 #'
 #' r = wilcoxon.z / sqrt(sample.size)
 #'
-#' @param wilcox.result the wilcoxon test result
 #' @param sample.size the sample's size
+#' @param wilcox.result the wilcoxon test result (only used if z.value == NULL otherwise z.value is used)
+#' @param z.value the wilcoxon test's z-value
 #' @return r-value of the test result
 #' @examples
 #' wilcox.effect.size(wilcox.test(wt ~ am, data=head(mtcars)),nrow(head(mtcars)))
 #' @export
-wilcox.effect.size <- function(wilcox.result, sample.size)
+wilcox.effect.size <- function(sample.size, wilcox.result = NULL, z.value = NULL)
 {
-  z <- wilcox.z(wilcox.result)
-  r <- z / sqrt(sample.size)
-  return(c(r=r))
+  if (is.null(z.value))
+  {
+    if (is.null(wilcox.result))
+    {
+      stop("Either wilcox.result or z.value must be unequal NULL! ")
+    }
+    z.value <- wilcox.z(wilcox.result)
+  }
+  r <- z.value / sqrt(sample.size)
+  return(c(r=unname(r)))
 }
 
 #' Creates the statistic string for a Wilcoxon-Mann-Whitney test result

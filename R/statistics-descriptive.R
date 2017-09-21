@@ -42,10 +42,11 @@ statistics.descriptive <- function(data, column.dependent, columns.independent, 
 #'
 #' @param data the data as a data.frame
 #' @param columns.independent a vector of columns that contain the independent variables
+#' @param drop should combinations of variables that do not appear in the columns.independent be preserved or dropped (default = FALSE)
 #' @examples
 #' statistics.descriptive.frequency(mtcars, c("cyl","carb"))
 #' @export
-statistics.descriptive.frequency <- function(data, columns.independent)
+statistics.descriptive.frequency <- function(data, columns.independent, drop=FALSE)
 {
   fun <- function(xx)
   {
@@ -54,7 +55,7 @@ statistics.descriptive.frequency <- function(data, columns.independent)
   }
 
   # Apply function to each sub set. The sub sets are defined by the independent columns
-  result <- plyr::ddply(data, columns.independent, .drop=TRUE, .fun = fun)
+  result <- plyr::ddply(data, columns.independent, .drop=drop, .fun = fun)
   return (result)
 }
 

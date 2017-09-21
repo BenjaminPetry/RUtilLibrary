@@ -146,7 +146,7 @@ statistics.plot <- function(data, column.dependent, columns.independent, data.ty
   }
   else if (data.type == "frequency")
   {
-    return(statistics.plot.frequency(data, columns.independent, position=position))
+    return(statistics.plot.frequency(data, columns.independent, FALSE, position=position))
   }
   stop("Data type '",data.type,"' is not supported!")
 }
@@ -157,6 +157,7 @@ statistics.plot <- function(data, column.dependent, columns.independent, data.ty
 #'
 #' @param data the data as a data.frame
 #' @param columns.independent a vector of columns that contain the independent variables
+#' @param drop should combinations of variables that do not appear in the columns.independent be preserved or dropped (default = FALSE)
 #' @param xlab label for x-axis (columns.independent[1] if provided)
 #' @param ylab label for y-axis (frequency)
 #' @param legend.lab label for legend (columns.independent[2] if provided)
@@ -169,9 +170,9 @@ statistics.plot <- function(data, column.dependent, columns.independent, data.ty
 #' statistics.plot.frequency(mtcars, c("cyl","carb"))
 #' @import ggplot2
 #' @export
-statistics.plot.frequency <- function(data, columns.independent, xlab = NULL, ylab = NULL, legend.lab = NULL, xlim = NULL, ylim = NULL, title = NULL, position=position_dodge())
+statistics.plot.frequency <- function(data, columns.independent, drop = FALSE, xlab = NULL, ylab = NULL, legend.lab = NULL, xlim = NULL, ylim = NULL, title = NULL, position=position_dodge())
 {
-  statistic <- statistics.descriptive.frequency(data, columns.independent)
+  statistic <- statistics.descriptive.frequency(data, columns.independent, drop = drop)
   if (is.null(ylab))
   {
     ylab <- "frequency"

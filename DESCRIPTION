@@ -1,8 +1,8 @@
 Package: BPUtil
 Type: Package
 Title: Utility functions
-Version: 0.1.9-7
-Date: 2017-09-21
+Version: 0.1.9-8
+Date: 2018-04-05
 Author: Benjamin Petry
 Maintainer: Benjamin Petry <bpetry@acm.org>
 Description: This package includes functions to easily access data from a database and to retrieve descriptive statistics and graphs.

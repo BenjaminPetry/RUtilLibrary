@@ -5,7 +5,7 @@
 #' @param p the ggplot-plot or a list of ggplots. Filename will be adjusted with increasing numbers, except for pdf files. These will contain one page per plot.
 #' @param filename filename of the file WITH extension, which describes the format. Currently supported are "eps", "ps", "tex", "pdf", "jpeg", "tiff", "png", "bmp", "svg"
 #' @param dpi the resultion of the picture (important for raster graphics)
-#' @param paper default paper - only important for pdf (see pdf(paper=?))
+#' @param paper default paper (currently specified by width and height) - only important for pdfs (see pdf(paper=?))
 #' @param width width of the ploting area in inch (width * ppi defines the size of the picture formats)
 #' @param height height of the ploting area in inch (as for width)
 #' @param print.default.graphicdevice when true, the plot will be plotted on the default graphics device as well
@@ -18,7 +18,7 @@
 #' @export
 # For saving a ggplot into a pdf-file and also provide output on the default graphic device.
 # Default size: A4
-save.plot <- function(p, filename, dpi = 300, paper="a4r", width=11.69, height = 8.27, print.default.graphicdevice = TRUE)
+save.plot <- function(p, filename, dpi = 300, paper="special", width=11.69, height = 8.27, print.default.graphicdevice = TRUE)
 {
   # extract file extension
   filename.split <- strsplit(filename,"\\.")[[1]]

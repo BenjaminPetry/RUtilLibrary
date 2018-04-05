@@ -4,7 +4,7 @@
 \alias{save.plot}
 \title{Stores a ggplot}
 \usage{
-save.plot(p, filename, dpi = 300, paper = "a4r", width = 11.69,
+save.plot(p, filename, dpi = 300, paper = "special", width = 11.69,
   height = 8.27, print.default.graphicdevice = TRUE)
 }
 \arguments{
@@ -14,7 +14,7 @@ save.plot(p, filename, dpi = 300, paper = "a4r", width = 11.69,
 
 \item{dpi}{the resultion of the picture (important for raster graphics)}
 
-\item{paper}{default paper - only important for pdf (see pdf(paper=?))}
+\item{paper}{default paper (currently specified by width and height) - only important for pdfs (see pdf(paper=?))}
 
 \item{width}{width of the ploting area in inch (width * ppi defines the size of the picture formats)}
 

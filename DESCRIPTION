@@ -1,8 +1,8 @@
 Package: BPUtil
 Type: Package
 Title: Utility functions
-Version: 0.1.9-8
-Date: 2018-04-05
+Version: 0.2.0
+Date: 2018-04-27
 Author: Benjamin Petry
 Maintainer: Benjamin Petry <bpetry@acm.org>
 Description: This package includes functions to easily access data from a database and to retrieve descriptive statistics and graphs.
@@ -10,5 +10,5 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Depends: R (>= 3.3.3), RMySQL (>= 0.10.11), plyr (>= 1.8.4), RColorBrewer (>= 1.1-2), ggplot2 (>= 2.2.1)
-Imports: utils (>= 3.3.3), stats (>= 3.3.3), grDevices (>= 3.3.3), graphics (>= 3.3.3)
+Depends: R (>= 3.4.4), RMySQL (>= 0.10.14), plyr (>= 1.8.4), RColorBrewer (>= 1.1-2), ggplot2 (>= 2.2.1), caTools (>= 1.17.1)
+Imports: stats (>= 3.4.4), grDevices (>= 3.4.4), graphics (>= 3.4.4), utils (>= 3.4.4), datasets (>= 3.4.4)

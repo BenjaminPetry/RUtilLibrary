@@ -77,8 +77,9 @@ statistics.descriptive.frequency <- function(data, columns.independent, drop=FAL
 #' @param columns.independent a vector of columns that contain the independent variables
 #' @examples
 #' statistics.descriptive.nonparametric(mtcars, "carb", c("cyl"))
+#' statistics.descriptive.nonparametric(mtcars, "carb")
 #' @export
-statistics.descriptive.nonparametric <- function(data, column.dependent, columns.independent)
+statistics.descriptive.nonparametric <- function(data, column.dependent, columns.independent=c())
 {
   fun <- function(xx, col)
   {
@@ -88,6 +89,12 @@ statistics.descriptive.nonparametric <- function(data, column.dependent, columns
     median = median(values, na.rm = FALSE)
     quantileV <- unname(stats::quantile(values, c(0.25, 0.75)))
     return(c(N = n, Sum = sumV, Percentiles.25 = quantileV[1], Percentiles.50 = median, Percentiles.75 = quantileV[2], Min = min(values), Max = max(values)))
+  }
+
+  # If no independent column is given, apply function to the whole dataset
+  if (length(columns.independent)==0)
+  {
+    return(fun(data, column.dependent))
   }
 
   # Apply function to each sub set. The sub sets are defined by the independent columns
@@ -130,7 +137,7 @@ statistics.descriptive.nonparametric <- function(data, column.dependent, columns
 #'                                   conf.accurate = TRUE)
 #' @import plyr
 #' @export
-statistics.descriptive.parametric <- function(data, column.dependent, columns.independent, conf.interval = .95, conf.accurate = TRUE)
+statistics.descriptive.parametric <- function(data, column.dependent, columns.independent=c(), conf.interval = .95, conf.accurate = TRUE)
 {
   statisticFun <- function(xx, col)
   {
@@ -163,6 +170,12 @@ statistics.descriptive.parametric <- function(data, column.dependent, columns.in
              Max = max(values)
     )
     return(res)
+  }
+
+  # If no independent column is given, apply function to the whole dataset
+  if (length(columns.independent)==0)
+  {
+    return(statisticFun(data, column.dependent))
   }
 
   # Apply function to each sub set. The sub sets are defined by the independent columns

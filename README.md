@@ -38,10 +38,10 @@ Utility functions for descriptive statistics, plots and database usage
 `p.value.string(p.value)`
 - converts a p-value into a string: p < 0.1 = .,p < 0.05 = *, p < 0.01 = **, p < 0.001 = ***
 
-`save.plot(p, filename, ppi = 300, paper = "a4r", width = 11.69,  height = 8.27, print.default.graphicdevice = TRUE)`
+`output.plot(p, filename, ppi = 300, paper = "a4r", width = 11.69,  height = 8.27, print.default.graphicdevice = TRUE)`
 - saves a ggplot (as from all the statistics.plot and histogram functions) in a file and also displays it in the RStudio window
 
-`reset.output()`
+`output.reset()`
 - closes all graphic devices and open sinks
 
 `copy.conditional.column(x, y, columns.copy = names(y), columns.copy.x = columns.copy, columns.copy.y = columns.copy, by = intersect(names(x), names(y))[1], by.x = by, by.y = by)`

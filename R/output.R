@@ -1,104 +1,6 @@
 env <- new.env(parent = emptyenv())
 env$outputDir <- ""
 
-#' Prepares output functions and opens a file
-#'
-#' Sets the output dir for images and opens a file to write strings into
-#'
-#' @param outputDir destination dir where all files should go to
-#' @param filename file to write data into
-#' @param reset set to TRUE to close all open sinks and graphic devices (default TRUE)
-#' @param replace set to TRUE to replace an existing file or FALSE to append to it (default TRUE)
-#' @return void
-#' @examples
-#' output.start("./","file.csv")
-#' @export
-output.start <- function(outputDir, filename, reset=TRUE, replace=TRUE)
-{
-  if (!endsWith(outputDir, "/"))
-  {
-    outputDir <- paste(outputDir,"/",sep="")
-  }
-  env$outputDir <- outputDir
-  if (reset)
-  {
-    output.reset()
-  }
-  filename <- paste(env$outputDir, filename, sep="")
-  if (file.exists(filename))
-  {
-    file.remove(filename)
-  }
-  sink(filename, append = !replace, split = TRUE)
-}
-
-#' Stops writing into files and in dir
-#'
-#' Closes the sink and all graphic devices
-#'
-#' @return void
-#' @examples
-#' output.stop()
-#' @export
-output.stop <- function()
-{
-  sink()
-  output.reset
-  env$outputDir <- ""
-}
-
-#' Writes a header into the output file
-#'
-#' Writes a "### [HEADER TEXT]" into the output file
-#'
-#' @param text text to write as header
-#' @return void
-#' @examples
-#' output.start("./","file.csv")
-#' output.header("Header Text")
-#' output.stop()
-#' @export
-output.header <- function(text)
-{
-  cat("### ")
-  output.writeLine(text)
-}
-
-#' Writes a line into the output file
-#'
-#' Writes a "[Text]" into the output file
-#'
-#' @param text text to write inside the file
-#' @return void
-#' @examples
-#' output.start("./","file.csv")
-#' output.writeLine("text")
-#' output.stop()
-#' @export
-output.writeLine <- function(text)
-{
-  cat(text)
-  cat("\n\n")
-}
-
-#' Writes a table as csv into the current file
-#'
-#' The table will be formated in csv format (',' as separator) and written into the current output file.
-#'
-#' @param data data to write as csv
-#' @return void
-#' @examples
-#' output.start("./","file.csv")
-#' output.csv(mtcars)
-#' output.stop()
-#' @export
-output.csv <- function(data)
-{
-  write.csv(data)
-  flush.console()
-}
-
-
 #' Closes all open sinks and graphic devices
 #'
 #' Closes the sinks that are still open and closes all graphic devices
@@ -120,6 +22,154 @@ output.reset <- function()
   }
 }
 
+#' Prepares output functions and sets a directory where all files will be relative to
+#'
+#' Sets the output dir for images
+#'
+#' @param outputDir destination dir where all files should go to
+#' @param reset set to TRUE to close all open sinks and graphic devices (default TRUE)
+#' @return void
+#' @examples
+#' output.init("./results/")
+#' @export
+output.init <- function(outputDir, reset=TRUE)
+{
+  if (!endsWith(outputDir, "/"))
+  {
+    outputDir <- paste(outputDir,"/",sep="")
+  }
+  env$outputDir <- outputDir
+  if (reset)
+  {
+    output.reset()
+  }
+}
+
+#' Closes all sinks and graphic devices and resets the output directory
+#'
+#' Closes the sink and all graphic devices
+#'
+#' @return void
+#' @examples
+#' output.init("./")
+#' output.dispose()
+#' @export
+output.dispose <- function()
+{
+  output.reset()
+  env$outputDir <- ""
+}
+
+#' Opens a file for writing
+#'
+#' Open a file to write strings into, relativ to the output directory
+#'
+#' @param filename file to write data into
+#' @param replace set to TRUE to replace an existing file or FALSE to append to it (default TRUE)
+#' @return void
+#' @examples
+#' output.init("./")
+#' # Starting a CSV file
+#' output.open("file.csv")
+#' output.csv(mtcars)
+#' output.close()
+#' # Starting a Markdown file
+#' output.open("file.md")
+#' output.header("First header",1)
+#' output.writeLine("Hello World")
+#' output.close()
+#' @export
+output.open <- function(filename, replace=TRUE)
+{
+  filename <- paste(env$outputDir, filename, sep="")
+  if (file.exists(filename) && replace)
+  {
+    file.remove(filename)
+  }
+  sink(filename, append = !replace, split = TRUE)
+}
+
+#' Closes the open file
+#'
+#' Closes the open file.
+#'
+#' @return void
+#' @examples
+#' output.init("./")
+#' output.open("file.md")
+#' output.close()
+#' @export
+output.close <- function()
+{
+  flush.console()
+  sink()
+}
+
+#' Writes a header into the output file
+#'
+#' Writes a "# Header" into the output file
+#'
+#' @param text text to write as header
+#' @param level level of the header
+#' @return void
+#' @examples
+#' output.init("./")
+#' output.open("file.md")
+#' output.header("First header",1)
+#' output.writeLine("Hello World")
+#' output.close()
+#' @export
+output.header <- function(text,level=1)
+{
+  cat(paste(replicate(level, "#"), collapse = ""))
+  cat(" ")
+  cat(text)
+  cat("\n\n")
+}
+
+#' Writes a line into the output file
+#'
+#' Writes a text into the output file
+#'
+#' @param text text to write inside the file
+#' @return void
+#' @examples
+#' output.init("./")
+#' output.open("file.md")
+#' output.header("First header",1)
+#' output.writeLine("Hello World")
+#' output.close()
+#' @export
+output.writeLine <- function(text)
+{
+  cat(text)
+  cat("\n")
+}
+
+#' Writes a table as csv into the current file (or a new file, if a filename is given)
+#'
+#' The table will be formated in csv format (',' as separator) and written into the current output file.
+#'
+#' @param data data to write as csv
+#' @param filename if given, the csv data will be written into a new file (default NULL)
+#' @return void
+#' @examples
+#' output.init("./")
+#' output.csv(mtcars, "file.csv")
+#' @export
+output.csv <- function(data, filename=NULL)
+{
+  if (!is.null(filename))
+  {
+    output.open(filename)
+  }
+  write.csv(data)
+  flush.console()
+  if (!is.null(filename))
+  {
+    output.close()
+  }
+}
 
 #' Stores a ggplot
 #'
@@ -132,8 +182,10 @@ output.reset <- function()
 #' @param width width of the ploting area in inch (width * ppi defines the size of the picture formats)
 #' @param height height of the ploting area in inch (as for width)
 #' @param print.default.graphicdevice when true, the plot will be plotted on the default graphics device as well
+#' @param attachToMarkdown if a file is open the name of filename is written into the file in markdown style.
 #' @return void
 #' @examples
+#' output.init("./")
 #' output.plot(statistics.plot.frequency(mtcars, c("cyl","carb")),"test.pdf")
 #' @import grDevices
 #' @import ggplot2
@@ -141,7 +193,7 @@ output.reset <- function()
 #' @export
 # For saving a ggplot into a pdf-file and also provide output on the default graphic device.
 # Default size: A4
-output.plot <- function(p, filename, dpi = 300, paper="special", width=11.69, height = 8.27, print.default.graphicdevice = TRUE)
+output.plot <- function(p, filename, dpi = 300, paper="special", width=11.69, height = 8.27, print.default.graphicdevice = TRUE, attachToMarkdown=FALSE)
 {
   filename <- paste(env$outputDir, filename, sep="")
 
@@ -199,7 +251,7 @@ output.plot <- function(p, filename, dpi = 300, paper="special", width=11.69, he
 
 #' @keywords internal
 #' @import graphics
-output.plot.single <- function(p, filename="", format="", dpi = 300, paper="a4r", width=11.69, height = 8.27)
+output.plot.single <- function(p, filename="", format="", dpi = 300, paper="a4r", width=11.69, height = 8.27, attachToMarkdown=FALSE)
 {
   if (filename == "")
   {
@@ -214,5 +266,9 @@ output.plot.single <- function(p, filename="", format="", dpi = 300, paper="a4r"
   else
   {
     ggplot2::ggsave(filename = filename, p, width = width, height = height, dpi = dpi, units = "in", device=format)
+  }
+  if (sink.number() > 0 && attachToMarkdown)
+  {
+    output.writeLine(paste("![",filename,"](",filename,")"))
   }
 }

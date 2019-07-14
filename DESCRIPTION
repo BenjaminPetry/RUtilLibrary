@@ -1,7 +1,7 @@
 Package: BPUtil
 Type: Package
 Title: Utility functions
-Version: 0.2.1
+Version: 0.2.2
 Date: 2019-07-10
 Author: Benjamin Petry
 Maintainer: Benjamin Petry <benjamin@bpetry.de>

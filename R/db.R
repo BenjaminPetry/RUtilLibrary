@@ -38,6 +38,7 @@ db.init <- function(host, user, password, dbname)
 #'
 #' @section Important: db.init has to be called first!
 #' @param queryString the SELECT-query string
+#' @param autoConvertTimestamps if TRUE, fields like "timestamp...", "start..." and "end..." will be automatically converted into POSIXct timestamps
 #' @return the result set as data.frame
 #' @seealso \code{\link{db.init}}
 #' @examples
@@ -46,7 +47,7 @@ db.init <- function(host, user, password, dbname)
 #' }
 #' @import RMySQL
 #' @export
-db.query <- function(queryString)
+db.query <- function(queryString,autoConvertTimestamps=TRUE)
 {
   con <- RMySQL::dbConnect(RMySQL::MySQL(),
                    user = env$dbLoginData.user,
@@ -57,5 +58,32 @@ db.query <- function(queryString)
   data <- RMySQL::fetch(query, n=-1)
   RMySQL::dbClearResult(RMySQL::dbListResults(con)[[1]])
   RMySQL::dbDisconnect(con)
+  if (autoConvertTimestamps)
+  {
+    data.names = names(data)
+
+    for (name in data.names)
+    {
+      name.check <- tolower(name)
+      if (grepl("end", name.check) || grepl("start", name.check) || grepl("timestamp", name.check))
+      {
+        data[[name]] = db.as.timestamp(data[[name]])
+      }
+    }
+  }
   return(data);
+}
+
+#' Converts a list or column of values to POSIXct timestamp
+#'
+#' Converts character-values of format like "2019-07-15 10:05:13.445098" to a POSIXct timestamp
+#'
+#' @param values the values to convert
+#' @return the values as POSIXct timestamp
+#' @examples
+#' db.as.timestamp(c("2019-07-15 10:05:13.445098"));
+#' @export
+db.as.timestamp <- function(values)
+{
+  return (as.POSIXct(strptime(values, "%Y-%m-%d %H:%M:%OS")))
 }

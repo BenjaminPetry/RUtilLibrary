@@ -1,7 +1,7 @@
 #' Setting up an environment to store the output information
 #' @keywords internal
-env <- new.env(parent = emptyenv())
-env$outputDir <- ""
+envOutput <- new.env(parent = emptyenv())
+envOutput$outputDir <- ""
 
 #' Closes all open sinks and graphic devices
 #'
@@ -40,7 +40,7 @@ output.init <- function(outputDir, reset=TRUE)
   {
     outputDir <- paste(outputDir,"/",sep="")
   }
-  env$outputDir <- outputDir
+  envOutput$outputDir <- outputDir
   if (reset)
   {
     output.reset()
@@ -59,7 +59,7 @@ output.init <- function(outputDir, reset=TRUE)
 output.dispose <- function()
 {
   output.reset()
-  env$outputDir <- ""
+  envOutput$outputDir <- ""
 }
 
 #' Opens a file for writing
@@ -83,7 +83,7 @@ output.dispose <- function()
 #' @export
 output.open <- function(filename, replace=TRUE)
 {
-  filename <- paste(env$outputDir, filename, sep="")
+  filename <- paste(envOutput$outputDir, filename, sep="")
   if (file.exists(filename) && replace)
   {
     file.remove(filename)
@@ -197,7 +197,7 @@ output.csv <- function(data, filename=NULL)
 # Default size: A4
 output.plot <- function(p, filename, dpi = 300, paper="special", width=11.69, height = 8.27, print.default.graphicdevice = TRUE, attachToMarkdown=FALSE)
 {
-  filename <- paste(env$outputDir, filename, sep="")
+  filename <- paste(envOutput$outputDir, filename, sep="")
 
   # extract file extension
   filename.split <- strsplit(filename,"\\.")[[1]]

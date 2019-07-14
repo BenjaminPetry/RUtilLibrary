@@ -1,3 +1,5 @@
+#' Setting up an environment to store the output information
+#' @keywords internal
 env <- new.env(parent = emptyenv())
 env$outputDir <- ""
 

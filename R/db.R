@@ -38,7 +38,7 @@ db.init <- function(host, user, password, dbname)
 #'
 #' @section Important: db.init has to be called first!
 #' @param queryString the SELECT-query string
-#' @param autoConvertTimestamps if TRUE, fields like "timestamp...", "start..." and "end..." will be automatically converted into POSIXct timestamps
+#' @param autoConvertTimestamps if TRUE, fields like "...timestamp...", "...start..." and "...end..." will be automatically converted into POSIXct timestamps
 #' @return the result set as data.frame
 #' @seealso \code{\link{db.init}}
 #' @examples
@@ -65,7 +65,7 @@ db.query <- function(queryString,autoConvertTimestamps=TRUE)
     for (name in data.names)
     {
       name.check <- tolower(name)
-      if (grepl("end", name.check) || grepl("start", name.check) || grepl("timestamp", name.check))
+      if (grepl("(^|[^a-zA-Z0-9])end($|[^a-zA-Z0-9])", name.check) || grepl("(^|[^a-zA-Z0-9])start($|[^a-zA-Z0-9])", name.check) || grepl("(^|[^a-zA-Z0-9])timestamp($|[^a-zA-Z0-9])", name.check))
       {
         data[[name]] = db.as.timestamp(data[[name]])
       }

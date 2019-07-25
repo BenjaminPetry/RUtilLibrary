@@ -210,7 +210,7 @@ output.plot <- function(p, filename, dpi = 300, paper="special", width=11.69, he
 
   # make plot a list if it is not
   plot.list <- p
-  if ("ggplot" %in% class(p))
+  if ("ggplot" %in% class(p) | "grob" %in% class(p))
   {
     plot.list <- list(p)
   }

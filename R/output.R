@@ -123,6 +123,7 @@ output.close <- function()
 #' @export
 output.header <- function(text,level=1)
 {
+  cat("\n")
   cat(paste(replicate(level, "#"), collapse = ""))
   cat(" ")
   cat(text)

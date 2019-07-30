@@ -1,8 +1,8 @@
 Package: BPUtil
 Type: Package
 Title: Utility functions
-Version: 0.2.5
-Date: 2019-07-24
+Version: 0.2.6
+Date: 2019-07-30
 Author: Benjamin Petry
 Maintainer: Benjamin Petry <benjamin@bpetry.de>
 Description: This package includes functions to easily access data from a database and to retrieve descriptive statistics and graphs.

@@ -15,10 +15,11 @@
 #' @seealso \code{\link{statistics.descriptive.frequency}}
 #' @examples
 #' statistics.histogram(mtcars, "carb", c("cyl"), column.fill = "gear", bins = 5)
+#' statistics.histogram(mtcars, "carb")
 #' @import ggplot2
 #' @import RColorBrewer
 #' @export
-statistics.histogram <- function(data, column.dependent, columns.independent, column.fill = NULL, bin.width = NULL, bins = 30, title = TRUE)
+statistics.histogram <- function(data, column.dependent, columns.independent=c(), column.fill = NULL, bin.width = NULL, bins = 30, title = TRUE)
 {
   column.fill.factor <- "NULL"
   values <- c()
@@ -39,13 +40,23 @@ statistics.histogram <- function(data, column.dependent, columns.independent, co
     }
     if (title && dim(xx)[1] > 0)
     {
-      tmp <- paste(columns.independent,xx[1,columns.independent],sep=":")
+      if (length(columns.independent)==0)
+      {
+        tmp <- paste("Distribution ",column.dependent,sep="")
+      }
+      else
+      {
+        tmp <- paste(columns.independent,xx[1,columns.independent],sep=":")
+      }
       title.string <- paste(tmp,collapse=", ")
       p <- p + ggplot2::ggtitle(title.string)
     }
     return(p)
   }
-
+  if (length(columns.independent)==0)
+  {
+    return(fun(data, column.dependent))
+  }
   # Apply function to each sub set. The sub sets are defined by the independent columns
   result <- plyr::dlply(data, columns.independent, .drop=TRUE,
                         .fun = fun,

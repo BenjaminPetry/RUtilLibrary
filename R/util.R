@@ -36,3 +36,8 @@ copy.conditional.column <- function(x, y, columns.copy = names(y), columns.copy.
   }
   return(x)
 }
+
+remove.columns <- function(data, columns)
+{
+  return(data[,!(names(data) %in% columns)])
+}

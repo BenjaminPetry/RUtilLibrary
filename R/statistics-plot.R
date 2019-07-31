@@ -38,18 +38,22 @@ statistics.histogram <- function(data, column.dependent, columns.independent=c()
     {
       p <- p + colorScale
     }
-    if (title && dim(xx)[1] > 0)
+    if (is.character(title))
     {
-      if (length(columns.independent)==0)
-      {
-        tmp <- paste("Distribution ",column.dependent,sep="")
-      }
-      else
-      {
-        tmp <- paste(columns.independent,xx[1,columns.independent],sep=":")
-      }
-      title.string <- paste(tmp,collapse=", ")
-      p <- p + ggplot2::ggtitle(title.string)
+      p <- p + ggplot2::ggtitle(title)
+    }
+    else if (title && dim(xx)[1] > 0)
+    {
+        if (length(columns.independent)==0)
+        {
+          p <- p + ggplot2::ggtitle(paste("Distribution ",column.dependent,sep=""))
+        }
+        else
+        {
+          tmp <- paste(columns.independent,xx[1,columns.independent],sep=":")
+          title.string <- paste(tmp,collapse=", ")
+          p <- p + ggplot2::ggtitle(title.string)
+        }
     }
     return(p)
   }

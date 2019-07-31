@@ -37,7 +37,32 @@ copy.conditional.column <- function(x, y, columns.copy = names(y), columns.copy.
   return(x)
 }
 
+#' Removes columns by name from a data frame
+#'
+#' Removes specified columns by their name from a data frame
+#'
+#' @param data data frame
+#' @param columns names of columns to remove
+#' @return the data frame without the specified columns
+#' @examples
+#' test = remove.columns(mtcars, c("cyl","carb"))
+#' @export
 remove.columns <- function(data, columns)
 {
   return(data[,!(names(data) %in% columns)])
+}
+
+#' Selects columns by name from a data frame
+#'
+#' Selects specified columns by their name from a data frame
+#'
+#' @param data data frame
+#' @param columns names of columns to select
+#' @return the data frame with only the specified columns
+#' @examples
+#' test = select.columns(mtcars, c("cyl","carb"))
+#' @export
+select.columns <- function(data, columns)
+{
+  return(data[,(names(data) %in% columns)])
 }

@@ -252,6 +252,58 @@ output.plot <- function(p, filename, dpi = 300, paper="special", width=11.69, he
   }
 }
 
+#' Starts a PDF file
+#'
+#' Creates a DinA4 document (on default) and waits for plotting on it.
+#'
+#' @param filename filename of the file WITH pdf as extension. The file is saved into the output directory
+#' @param dpi the resultion of the picture (important for raster graphics)
+#' @param paper default paper (currently specified by width and height) - only important for pdfs (see pdf(paper=?))
+#' @param width width of the ploting area in inch (width * ppi defines the size of the picture formats)
+#' @param height height of the ploting area in inch (as for width)
+#' @return void
+#' @examples
+#' output.init("./")
+#' output.pdf.start("test.pdf")
+#' print(statistics.plot.frequency(mtcars, c("cyl","carb")))
+#' output.pdf.stop()
+#' @import grDevices
+#' @export
+# For writing plots into a pdf-file
+# Default size: A4
+output.pdf.start <- function(filename="", dpi = 300, paper="a4r", width=11.69, height = 8.27)
+{
+  filename <- paste(envOutput$outputDir, filename, sep="")
+
+  # extract file extension
+  filename.split <- strsplit(filename,"\\.")[[1]]
+  format <- filename.split[length(filename.split)]
+  if (format != "pdf")
+  {
+    stop("Not supported format ",format)
+  }
+
+  grDevices::pdf(filename, paper=paper, width=width, height = height)
+}
+
+#' Stops writing into a PDF file
+#'
+#' Closes the graphics device for writing into a pdf file
+#'
+#' @return void
+#' @examples
+#' output.init("./")
+#' output.pdf.start("test.pdf")
+#' print(statistics.plot.frequency(mtcars, c("cyl","carb")))
+#' output.pdf.stop()
+#' @import grDevices
+#' @export
+output.pdf.stop <- function()
+{
+  grDevices::dev.off()
+}
+
+
 #' @keywords internal
 #' @import graphics
 output.plot.single <- function(p, filename="", format="", dpi = 300, paper="a4r", width=11.69, height = 8.27, attachToMarkdown=FALSE)
